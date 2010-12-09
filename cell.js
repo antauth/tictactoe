@@ -1,11 +1,11 @@
 /* There are 9 cells on a board.
-   Cell object stores value of cell (c or p) and type of cell (corner, edge, center). 
+   This Cell object stores the cell value--c for computer or p for (human) player--and the type of cell (corner, edge, center). 
 */
 
 function Cell(v, t) {
 	var value = v;
 	var type = t;
-	this.isEmpty = isEmpty;
+	this.isEmpty = isEmpty; //determines if cell has no value
 
 	this.__defineGetter__("value", function() {
 		return value;
