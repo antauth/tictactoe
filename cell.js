@@ -22,8 +22,8 @@ function Cell(v, t) {
 	this.__defineSetter__("type", function(t) {
 		type = t;
 	});
+}
 
 function isEmpty() {
 	return (this.value == "");
-}
 }
