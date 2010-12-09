@@ -1,68 +1,55 @@
-var gGameOver = false;
-var gLastPlayerMove;
-var gPlayerTurnOrder;
+/* This is the main function that controls game play. */
+var gGameOver = false; //has the game ended?
+var gLastPlayerMove; //the last cell where a player put their mark
+var gPlayerTurnOrder; //determines which player goes first: 0 - human first
 
-//draw board
-var b = new Board();
-var onScreenGrid = new Gui()};
+var b = new Board(); //create internal board representation
+var onScreenGrid = new Gui()}; //create HTML board representation
 
-//instantiate new cpu player
-var cpu = new Logic();
+var cpu = new Logic(); //instantiate new cpu player
+var player = new Player(); //instantiate new human player
 
-//instantiate new human player
-var player = new Player();
-
+/* startGame determines which player moves first
+   param:plays counts how many time the game has been played in a row */
 function startGame(plays){
-//determine who goes first
-var gPlayerTurnOrder = plays%2; //if 0, human player goes first
+	var gPlayerTurnOrder = plays%2;
 
-	//if first move is computer 
-	if(gPlayTurnOrder == 1){
-		cpu.move(center); //if first player, computer will always select center
+	if(gPlayTurnOrder == 1){ //if first move is computer 
+		cpu.move(center); //always select center
 	}
 }
 
+/* continueGame is triggered by the users mouse click, param:m*/
 function continueGame(m){
-	//check if game hasn't ended
-	if(!gameOver){
-		//determine position of human players click
-		player.move(onScreenGrid.cursorPosition(m));
-
-		if(gLastPlayerMove == -1){
-		//invalid move made by human
+	if(!gameOver){ //check if game hasn't ended
+		player.move(onScreenGrid.cursorPosition(m));//map click to a cell
+		if(gLastPlayerMove == -1){ //invalid move made by human
 		document.write('Your move was invalid. Try again');
 		}
 		else {
-		//get game status to check for win, loss, or draw
-		var chk = b.statusCheck(gLastPlayerMove);
-		if(chk == 'c'){
-		//if((playerTurnOrder == 0 && board.Taken()%2 == 1) || (PlayerTurnOrder == 1 && board.Taken()%2 == 0)){
-		cpu.move();
-			//}
-	
-		//get game status to check for win, loss or draw
-		chk = b.statusCheck(gLastPlayerMove);
+		var chk = b.statusCheck(gLastPlayerMove); //check for win, lose, or draw
+		if(chk == 'c'){ //continue game
+			cpu.move();
+			chk = b.statusCheck(gLastPlayerMove); //check for win or draw
 		}	
 		gGameOver = true; //flag will be reset based on following
 
-		if(chk == 'd'){
+		if(chk == 'd'){ //game is a draw
 			document.write('Draw. Game over.');
 		}	
-		else if (chk == 'l'){
+		else if (chk == 'l'){ //human player loses game
 			document.write('You lose...of course!');
 		}
-		else if (chk == 'w'){
+		else if (chk == 'w'){ //human player wins game
 			document.write('You won???!!!!');
 		else {
 			gGameOver = false;
 		}
 	}
 	else {
-		//redraw on screen board
-		onScreenGrid.grid.width = onScreenGrid.grid.width;
-		//reset grid
-
-		startGame(gPlayerTurnOrder++;);
+		onScreenGrid.grid.width = onScreenGrid.grid.width; //reset HTML board
+		b.reset; //reset grid
+		startGame(gPlayerTurnOrder++); //start game again
 	}		
 }
 
