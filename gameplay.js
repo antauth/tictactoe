@@ -18,7 +18,7 @@ function startGame(plays){
 	onScreenGrid.board(); //draw HTML board
 
 	if(gPlayerTurnOrder == 1){ //if first move is computer 
-		cpu.move(center); //always select center
+		cpu.move();
 	}
 }
 
