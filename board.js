@@ -178,7 +178,7 @@ function findRow(cell, start){
 function getFork(select){
 	var opportunities = new Array(); //an array of possible forks
 	var j = 0; //index for new array
-	for(i = 0; i <= 8; i++){//get rows where only one desired mark exists
+	for(i = 0; i < 8; i++){//get rows where only one desired mark exists
 		if((this.rowArr[i][0].isEmpty() && this.rowArr[i][1].isEmpty && this.rowArr[i][2].value == select)){
 		opportunities[j] = this.rowArr[i][0];
 		j++;

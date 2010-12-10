@@ -1,20 +1,24 @@
 /* This is the main function that controls game play. */
-var b = new Board(); //create internal board representation
+var b; //create internal board representation
 var onScreenGrid; //create HTML board representation
 
-var cpu = new Logic(); //instantiate new cpu player
-var player = new Player(); //instantiate new human player
+var cpu; //instantiate new cpu player
+var player; //instantiate new human player
 
 /* startGame determines which player moves first
    param:plays counts how many time the game has been played in a row */
 function startGame(plays){
 	var gPlayerTurnOrder = plays%2;
 
+	b = new Board();
 	onScreenGrid = new Gui(); //placed inside this func to occur post-load	
 	onScreenGrid.board(); //draw HTML board
+	cpu = new Logic();
+	player = new Player();
 
 	if(gPlayerTurnOrder == 1){ //if first move is computer 
 		cpu.movement();
+
 	}
 }
 

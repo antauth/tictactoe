@@ -1,6 +1,6 @@
 /*Logic is the computer player object responsible for the logic of the computers game play*/
 function Logic(){
-this.movement = makeMove;
+this.movement = move;
 this.player = 'c'; //representation of computer player on internal board
 this.win = ifWin;
 this.lose = ifLose;
@@ -22,10 +22,10 @@ function ifFork(){ //check for fork opportunity
 }
 
 function ifBlock(){ //check for fork threat
-	return b.forkBlock(player.player);
+	return b.fork(player.player);
 }
 
-function opening(type, start){ //find an opening with the desired features
+function opening(type, start){ 
 	var flag = false; //have you found an empty cell
 	while(!flag && start < 9){
 		var cell = b.findByType(type, start);
@@ -40,11 +40,8 @@ function opening(type, start){ //find an opening with the desired features
 	return -1;
 }
 	
-
-function makeMove(){ //complete logic for movements made by computer
-	document.write('in cpu move logic');
-	var movement; //tracks final move for computer player
-	var forkBlock = b.fork(player.player); //check for fork block opportunity
+function move(){
+	var movement = 4; //tracks final move for computer player
 	if(this.win() != -1){
 		var win = this.win();
 		for(i = 0; i <= 2; i++){
@@ -86,18 +83,18 @@ function makeMove(){ //complete logic for movements made by computer
 		movement = b.findByType('center', 0);
 	}
 	else if(this.findOpening('corner', 0) != -1){ //corner empty
-		b.gridArr[b.findOpening('corner', 0)].value = this.player;
-		movement = b.findOpening('corner', 0); 
+		b.gridArr[this.findOpening('corner', 0)].value = this.player;
+		movement = this.findOpening('corner', 0); 
 	}
 	else { //play edge
-		b.gridArr[b.findOpening('edge', 0)].value = this.player;
-		movement = b.findOpening('edge', 0); 
+		b.gridArr[this.findOpening('edge', 0)].value = this.player;
+		movement = this.findOpening('edge', 0); 
 	}
 
-	document.write('movement is' + movement);
 	gLastPlayerMove = movement;
 	onScreenGrid.drawMove(this.player, movement); //put move on board
 }
+
 
 function translate(row, index){ //returns the cell number for a row location
 	var flag = false; //have we found the cell?
