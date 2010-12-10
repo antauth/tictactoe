@@ -18,7 +18,6 @@ function startGame(plays){
 
 	if(gPlayerTurnOrder == 1){ //if first move is computer 
 		cpu.movement();
-
 	}
 }
 
@@ -26,25 +25,30 @@ function startGame(plays){
 function continueGame(m){
 	if(!gGameOver){ //check if game hasn't ended
 		player.move(onScreenGrid.cursorPosition(m));//map click to a cell
+
+				printOnScreen(b.printGrid());
 		if(gLastPlayerMove == -1){ //invalid move made by human
 			document.write('Your move was invalid. Try again');
 		}
 		else {
+				
+				printOnScreen(gLastPlayerMove);
 			var chk = b.statusCheck(gLastPlayerMove); //check for win, lose, or draw
 			if(chk == 'c'){ //continue game
 				cpu.movement();
+				printOnScreen(b.printGrid() + ' ' + gLastPlayerMove);
 				chk = b.statusCheck(gLastPlayerMove); //check for win or draw
 			}
 			gGameOver = true; //flag will be reset based on following
 
 			if(chk == 'd'){ //game is a draw
-				document.write('Draw. Game over.');
+				printOnScreen('Draw. Game over.');
 			}	
 			else if (chk == 'l'){ //human player loses game
-				document.write('You lose...of course!');
+				printOnScreen('You lose...of course!');
 			}
 			else if (chk == 'w'){ //human player wins game
-				document.write('You won???!!!!');
+				printOnScreen('You won???!!!!');
 			}
 			else {
 				gGameOver = false;
@@ -58,3 +62,6 @@ function continueGame(m){
 	}		
 }
 
+function printOnScreen(text){
+	document.getElementById('messages').innerHTML = text;
+}
