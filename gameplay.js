@@ -25,18 +25,13 @@ function startGame(plays){
 function continueGame(m){
 	if(!gGameOver){ //check if game hasn't ended
 		player.move(onScreenGrid.cursorPosition(m));//map click to a cell
-
-				printOnScreen(b.printGrid());
 		if(gLastPlayerMove == -1){ //invalid move made by human
 			document.write('Your move was invalid. Try again');
 		}
 		else {
-				
-				printOnScreen(gLastPlayerMove);
 			var chk = b.statusCheck(gLastPlayerMove); //check for win, lose, or draw
 			if(chk == 'c'){ //continue game
 				cpu.movement();
-				printOnScreen(b.printGrid() + ' ' + gLastPlayerMove);
 				chk = b.statusCheck(gLastPlayerMove); //check for win or draw
 			}
 			gGameOver = true; //flag will be reset based on following
@@ -62,6 +57,9 @@ function continueGame(m){
 	}		
 }
 
+/* printOnScreen outputs game messages to user
+   Messages appear directly under board
+   param:text is the text of the message */
 function printOnScreen(text){
 	document.getElementById('messages').innerHTML = text;
 }

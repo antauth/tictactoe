@@ -3,26 +3,15 @@
 */
 
 function Board(){
-	var cell = new Cell("","corner");
-	var cell2 = new Cell("","edge");
-	var cell3 = new Cell("","corner");
-	var cell4 = new Cell("","edge");
-	var cell5 = new Cell("","center");
-	var cell6 = new Cell("","edge");
-	var cell7 = new Cell("","corner");
-	var cell8 = new Cell("","edge");
-	var cell9 = new Cell("","corner");
-
-	this.gridArr = new Array();
-	this.gridArr[0] = cell;
-	this.gridArr[1] = cell2;
-	this.gridArr[2] = cell3;
-	this.gridArr[3] = cell4;
-	this.gridArr[4] = cell5;
-	this.gridArr[5] = cell6;
-	this.gridArr[6] = cell7;
-	this.gridArr[7] = cell8;
-	this.gridArr[8] = cell9;
+	this.gridArr = new Array(	new Cell("","corner"),
+					new Cell("","edge"),
+					new Cell("","corner"),
+					new Cell("","edge"),
+					new Cell("","center"),
+					new Cell("","edge"),
+					new Cell("","corner"),
+					new Cell("","edge"),
+					new Cell("","corner"));
 
 	this.statusCheck = getStatus;
 	this.rowArr = new Array(	new Array(	this.gridArr[0],
@@ -61,6 +50,8 @@ function Board(){
 	this.printGrid = printOutGrid;
 }
 
+/* printOutGrid prints out the grid as test
+   Good for debugging */
 function printOutGrid(){
 	var output = '';
 	for(i = 0; i <= 8; i++){
@@ -163,7 +154,7 @@ function getStatus(move){
 /* hasWon alternate */
 function hasWon(){
 	for(row=0; row < 8; row++){
-		 if(this.rowArr[row][0].value == this.rowArr[row][1].value && this.rowArr[row][1].value == this.rowArr[row][2]){
+		 if(this.rowArr[row][0].value == this.rowArr[row][1].value && this.rowArr[row][1].value == this.rowArr[row][2].value){
 		return this.rowArr[row][0].value;
 		}
 	}
@@ -182,7 +173,7 @@ function  hasDrawn(){
 /* findRow finds the row(s) in which a cell appears
    param:cell is the cell number
    param:start is where to start looking*/	
-function findRow(cell, start){
+/*function findRow(cell, start){
 	while(start <= 8){
 		for(i = 0; i <=2; i++){
 			if(this.gridArr[cell] == this.rowArr[start][i]){
@@ -192,8 +183,10 @@ function findRow(cell, start){
 		start++;
 	}
 	return -1;
-}
+}*/
 
+/* getFork roughly detects opportunities for fork moves
+   param:select takes p for player or c for computer */
 function getFork(select){
 	var opportunities = new Array(); //an array of possible forks
 	var j = 0; //index for new array
@@ -230,6 +223,7 @@ function getFork(select){
 	return -1;
 }
 
+/* resetGrid clears all moves from gridArr allowing for a new game */
 function resetGrid(){
 	for(i = 0; i <= 8; i++) {
 		this.gridArr[i] = "";
