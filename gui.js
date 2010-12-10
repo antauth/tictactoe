@@ -96,10 +96,19 @@ function drawPlayerMove(player, gridNumber) {
 	var y; //y-coordinate is the middle of the grid/cell
 	var playerLetter; //X or O
 
-	if((player == 'c' && gPlayerTurnOrder == 0) || (player == 'p' && gPlayerTurnOrder == 1)){
+	/*if((player == 'c' && gPlayerTurnOrder == 0) || (player == 'p' && gPlayerTurnOrder == 1)){
 		playerLetter = 'O';
 	}
 	else {
+		playerLetter = 'X';
+	}*/
+	
+	/*workaround for player letter assignment errors
+	  each player will always have a given letter*/
+	if(player == 'c'){
+		playerLetter = 'O';
+	}
+	else{
 		playerLetter = 'X';
 	}
 
