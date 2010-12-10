@@ -1,22 +1,29 @@
-/* The Board object creates the grid, an internal representation of the on screen
-   board. It determines the validity of of player moves and assists the computer
+/* The Board object creates the grid, an inteayer moves and assists the computer
    in making logical moves.
 */
 
-var center = 4;
-var edge = 2;
-var corner = 3;
- 
 function Board(){
-	this.gridArr = new Array(	new Cell("","corner"),
-					new Cell("","edge"),
-					new Cell("","corner"),
-					new Cell("","edge"),
-					new Cell("","center"),
-					new Cell("","edge"),
-					new Cell("","corner"),
-					new Cell("","edge"),
-					new Cell("","corner"));
+	var cell = new Cell("","corner");
+	var cell2 = new Cell("","edge");
+	var cell3 = new Cell("","corner");
+	var cell4 = new Cell("","edge");
+	var cell5 = new Cell("","center");
+	var cell6 = new Cell("","edge");
+	var cell7 = new Cell("","corner");
+	var cell8 = new Cell("","edge");
+	var cell9 = new Cell("","corner");
+
+	this.gridArr = new Array();
+	this.gridArr[0] = cell;
+	this.gridArr[1] = cell2;
+	this.gridArr[2] = cell3;
+	this.gridArr[3] = cell4;
+	this.gridArr[4] = cell5;
+	this.gridArr[5] = cell6;
+	this.gridArr[6] = cell7;
+	this.gridArr[7] = cell8;
+	this.gridArr[8] = cell9;
+
 	this.statusCheck = getStatus;
 	this.rowArr = new Array(	new Array(	this.gridArr[0],
 							this.gridArr[1],
@@ -48,6 +55,9 @@ function Board(){
 	this.validMove = checkValidity;
 	this.takenCells = getCellCount;
 	this.reset = resetGrid;
+	this.won = hasWon;
+	this.drawn = hasDrawn;
+	this.findByType = findType;
 }
 
 /* getCellCount counts how many cells are occupied */
@@ -61,18 +71,10 @@ function getCellCount() {
 	return count;
 }
 
-function getFrequency(num) {
-	var cCount = 0; //count of c in row
-	var pCount = 0; //count of p in row
-	
-	for(i = 0; i <= 7; i++){
-		for(j = 0; j <= 2; j++){
-			if (this.rowArr[i][j].value == 'p'){
-				pCount++;
-			}
-			else if (this.rowArr[i][j].value == 'c'){
-				cCount++;
-			}
+function findType(t, start){ //find a cell by type
+	for(i = start; i <= 8; i++){
+		if(this.gridArr[i].type == t){
+			return i;
 		}
 	}
 }
@@ -122,11 +124,11 @@ function getTwoInARow(select){
 function getStatus(move){
 	var stats = 'c';
 	if(gPlayerTurnOrder != this.takenCells()%2){ //did the player win
-		if(hasWon(move)){
+		if(this.won(move)){
 			stats = 'w';
 		}
 	}
-	else if(hasWon(move)){ //did the player lose aka computer won
+	else if(this.won(move)){ //did the player lose aka computer won
 		stats = 'l';
 	}
 	else if(hasDrawn()){ //can no more moves be made
@@ -147,7 +149,17 @@ function hasWon(m){
 	}
 	return false;
 }
-	
+
+/* hasDrawn checks to see if any win opportunities for either player still exist */	
+function  hasDrawn(){
+	if(this.twoInARow('a') != -1){
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
 /* findRow finds the row(s) in which a cell appears
    param:cell is the cell number
    param:start is where to start looking*/	
@@ -167,8 +179,36 @@ function getFork(select){
 	var opportunities = new Array(); //an array of possible forks
 	var j = 0; //index for new array
 	for(i = 0; i <= 8; i++){//get rows where only one desired mark exists
-		if((this.rowArr[i][0].isEmpty() && this.rowArr[i][1].isEmpty && this.rowArr[i][2].value == select){
-		opportunities[j] = this.rowArr[i]
+		if((this.rowArr[i][0].isEmpty() && this.rowArr[i][1].isEmpty && this.rowArr[i][2].value == select)){
+		opportunities[j] = this.rowArr[i][0];
+		j++;
+		opportunities[j] = this.rowArr[i][1];
+		j++;
+		}
+		else if((this.rowArr[i][0].isEmpty() && this.rowArr[i][2].isEmpty && this.rowArr[i][1].value == select)){
+		opportunities[j] = this.rowArr[i][0];
+		j++;
+		opportunities[j] = this.rowArr[i][2];
+		j++;
+		}
+		else if((this.rowArr[i][1].isEmpty() && this.rowArr[i][2].isEmpty && this.rowArr[i][0].value == select)){
+		opportunities[j] = this.rowArr[i][1];
+		j++;
+		opportunities[j] = this.rowArr[i][2];
+		j++;
+		}
+	}
+	while(opportunities.length != 0){ //find possible forks by iterating through opportunities array
+		for(k = 0; k <= opportunities.length - 1; k++){ //take an item off array
+			var compareRow = opportunities.pop();
+			for(j = 0; j <= opportunities.length; j++){ //compare that row to the remaining rows
+				if(compareRow == opportunities[j]){
+					return compareRow;
+				}
+			}
+		}
+	}
+	return -1;
 }
 
 function resetGrid(){

@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <head>
+	<script src="globals.js" language="javascript" type="text/javascript"></script>
+<head>
+	<script src="gui.js" language="javascript" type="text/javascript"></script>
+	<script src="board.js" language="javascript" type="text/javascript"></script>
+	<script src="cell.js" language="javascript" type="text/javascript"></script>
+	<script src="logic.js" language="javascript" type="text/javascript"></script>
+	<script src="player.js" language="javascript" type="text/javascript"></script>
 	<script src="gameplay.js" language="javascript" type="text/javascript"></script>
 </head>
 <body>
 	<canvas id="board" width="300" height="300">	
 	</canvas>
-	<script type="text/javascript">startGame();
-	drawPlayerMove('X',0);</script>
+	<script type="text/javascript">startGame(0);</script>
 </body>
 </html>

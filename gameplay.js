@@ -1,8 +1,4 @@
 /* This is the main function that controls game play. */
-var gGameOver = false; //has the game ended?
-var gLastPlayerMove; //the last cell where a player put their mark
-var gPlayerTurnOrder; //determines which player goes first: 0 - human first
-
 var b = new Board(); //create internal board representation
 var onScreenGrid; //create HTML board representation
 
@@ -14,11 +10,11 @@ var player = new Player(); //instantiate new human player
 function startGame(plays){
 	var gPlayerTurnOrder = plays%2;
 
-	onScreenGrid = new Gui();	
+	onScreenGrid = new Gui(); //placed inside this func to occur post-load	
 	onScreenGrid.board(); //draw HTML board
 
 	if(gPlayerTurnOrder == 1){ //if first move is computer 
-		cpu.move();
+		cpu.movement();
 	}
 }
 
@@ -32,23 +28,23 @@ function continueGame(m){
 		else {
 			var chk = b.statusCheck(gLastPlayerMove); //check for win, lose, or draw
 			if(chk == 'c'){ //continue game
-				cpu.move();
+				cpu.movement();
 				chk = b.statusCheck(gLastPlayerMove); //check for win or draw
 			}
-		}	
-		gGameOver = true; //flag will be reset based on following
+			gGameOver = true; //flag will be reset based on following
 
-		if(chk == 'd'){ //game is a draw
-			document.write('Draw. Game over.');
-		}	
-		else if (chk == 'l'){ //human player loses game
-			document.write('You lose...of course!');
-		}
-		else if (chk == 'w'){ //human player wins game
-			document.write('You won???!!!!');
-		}
-		else {
-			gGameOver = false;
+			if(chk == 'd'){ //game is a draw
+				document.write('Draw. Game over.');
+			}	
+			else if (chk == 'l'){ //human player loses game
+				document.write('You lose...of course!');
+			}
+			else if (chk == 'w'){ //human player wins game
+				document.write('You won???!!!!');
+			}
+			else {
+				gGameOver = false;
+			}
 		}
 	}
 	else {

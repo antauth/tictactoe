@@ -3,11 +3,10 @@
 */
 
 function Cell(v, t) {
-	var value = v;
-	var type = t;
-	this.isEmpty = isEmpty; //determines if cell has no value
-
-	this.__defineGetter__("value", function() {
+	this.value = v;
+	this.type = t;
+	this.isEmpty = isItEmpty; //determines if cell has no value
+	/*this.__defineGetter__("value", function() {
 		return value;
 	});
 
@@ -21,9 +20,10 @@ function Cell(v, t) {
 
 	this.__defineSetter__("type", function(t) {
 		type = t;
-	});
+	});*/
 }
 
-function isEmpty() {
+function isItEmpty() {
 	return (this.value == "");
 }
+
