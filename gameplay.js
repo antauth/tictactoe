@@ -8,7 +8,7 @@ var player; //instantiate new human player
 /* startGame determines which player moves first
    param:plays counts how many time the game has been played in a row */
 function startGame(plays){
-	var gPlayerTurnOrder = plays%2;
+	gPlayerTurnOrder = plays%2;
 
 	b = new Board();
 	onScreenGrid = new Gui(); //placed inside this func to occur post-load	
@@ -53,7 +53,10 @@ function continueGame(m){
 	else {
 		onScreenGrid.reset(); //reset HTML board
 		b.reset(); //reset grid
-		startGame(gPlayerTurnOrder++); //start game again
+		gGameOver = false; //reset global variable
+		gPlayerTurnOrder++; //increment to switch first player
+		startGame(gPlayerTurnOrder); //start game again
+		printOnScreen("Let's play!");
 	}		
 }
 

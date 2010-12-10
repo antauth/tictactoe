@@ -43,6 +43,7 @@ function opening(type, start){
 function move(){
 	var movement; //tracks final move for computer player
 	if(this.win() != -1){
+		printOnScreen('Computer executes win');
 		var win = this.win();
 		for(i = 0; i <= 2; i++){
 			if(b.rowArr[win][i].isEmpty()){
@@ -52,6 +53,7 @@ function move(){
 		}
 	}
 	else if(this.lose() != -1){
+		printOnScreen('Computer blocks');
 		var lose = this.lose();
 		for(i = 0; i <= 2; i++){
 			if(b.rowArr[lose][i].isEmpty()){
@@ -61,24 +63,29 @@ function move(){
 		}
 	}
 	else if(this.fork() != -1){
+		printOnScreen('Computer executes fork');
 		var fork = this.fork();
 		fork.value = this.player;
 		movement = retrieve(fork);
 	}
 	else if(this.forkBlock() != -1){
+		printOnScreen('Computer executes fork block');
 		var forkBlock = this.forkBlock();
 		forkBlock.value = this.player;
 		movement = retrieve(forkBlock);
 	}
 	else if(b.gridArr[b.findByType('center', 0)].isEmpty()){ //center empty
+		printOnScreen('Computer plays center');
 		movement = b.findByType('center', 0);
 		b.gridArr[movement].value = this.player;
 	}
 	else if(this.findOpening('corner', 0) != -1){ //corner empty
+		printOnScreen('Computer selects corner');
 		movement = this.findOpening('corner', 0); 
 		b.gridArr[movement].value = this.player;
 	}
 	else { //play edge
+		printOnScreen('Computer selects edge');
 		movement = this.findOpening('edge', 0); 
 		b.gridArr[movement].value = this.player;
 	}
