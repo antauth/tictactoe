@@ -58,13 +58,22 @@ function Board(){
 	this.won = hasWon;
 	this.drawn = hasDrawn;
 	this.findByType = findType;
+	this.printGrid = printOutGrid;
+}
+
+function printOutGrid(){
+	var output = '';
+	for(i = 0; i <= 8; i++){
+		output += i + '-' + this.gridArr[i].value + ' '; 
+	}	
+	return output;
 }
 
 /* getCellCount counts how many cells are occupied */
 function getCellCount() {
 	var count = 0;
 	for(i = 0; i <= 8; i++) {
-		if(this.gridArr[i] != ""){
+		if(!this.gridArr[i].isEmpty()){
 			count++;
 		}
 	}
@@ -123,15 +132,15 @@ function getTwoInARow(select){
 */	
 function getStatus(move){
 	var stats = 'c';
-	if(gPlayerTurnOrder != this.takenCells()%2){ //did the player win
-		if(this.won(move)){
+	//if(gPlayerTurnOrder != this.takenCells()%2){ //did the player win
+		if(this.won() == 'p'){
 			stats = 'w';
 		}
-	}
-	else if(this.won(move)){ //did the player lose aka computer won
+	//}
+	else if(this.won() == 'c'){ //did the player lose aka computer won
 		stats = 'l';
 	}
-	else if(hasDrawn()){ //can no more moves be made
+	else if(this.drawn()){ //can no more moves be made
 		stats = 'd';
 	}
 	return stats;
@@ -139,24 +148,34 @@ function getStatus(move){
 
 /* hasWon checks for a win/loss
    param:m is the last movement (cell selected) by a player */
-function hasWon(m){
-	var row = 0;
+/*function hasWon(m){
+	var counter = 0;
 	for(i = 0; i < parseInt(this.gridArr[m].type); i++){
-		row = findRow(m, row);
+		row = findRow(m, counter);
 		if(this.rowArr[row][0].value == this.rowArr[row][1].value && this.rowArr[row][1].value == this.rowArr[row][2]){
 		return true;
 		}
+		counter++;
 	}
 	return false;
+}*/
+
+/* hasWon alternate */
+function hasWon(){
+	for(row=0; row < 8; row++){
+		 if(this.rowArr[row][0].value == this.rowArr[row][1].value && this.rowArr[row][1].value == this.rowArr[row][2]){
+		return this.rowArr[row][0].value;
+		}
+	}
 }
 
 /* hasDrawn checks to see if any win opportunities for either player still exist */	
 function  hasDrawn(){
-	if(this.twoInARow('a') != -1){
-		return false;
+	if(this.twoInARow('a') == -1 && this.takenCells() > 7){
+		return true;
 	}
 	else {
-		return true;
+		return false;
 	}
 }
 
@@ -201,7 +220,7 @@ function getFork(select){
 	while(opportunities.length != 0){ //find possible forks by iterating through opportunities array
 		for(k = 0; k <= opportunities.length - 1; k++){ //take an item off array
 			var compareRow = opportunities.pop();
-			for(j = 0; j <= opportunities.length; j++){ //compare that row to the remaining rows
+			for(j = 0; j < opportunities.length; j++){ //compare that row to the remaining rows
 				if(compareRow == opportunities[j]){
 					return compareRow;
 				}

@@ -41,7 +41,7 @@ function opening(type, start){
 }
 	
 function move(){
-	var movement = 4; //tracks final move for computer player
+	var movement; //tracks final move for computer player
 	if(this.win() != -1){
 		var win = this.win();
 		for(i = 0; i <= 2; i++){
@@ -62,33 +62,25 @@ function move(){
 	}
 	else if(this.fork() != -1){
 		var fork = this.fork();
-		for(i = 0; i <= 2; i++){
-			if(b.rowArr[fork][i].isEmpty()){
-				b.rowArr[fork][i].value = this.player;
-				movement = translate(fork, i);
-			}
-		}
+		fork.value = this.player;
+		movement = retrieve(fork);
 	}
 	else if(this.forkBlock() != -1){
 		var forkBlock = this.forkBlock();
-		for(i = 0; i <= 2; i++){
-			if(b.rowArr[forkBlock][i].isEmpty()){
-				b.rowArr[forkBlock][i].value = this.player;
-				movement = translate(forkBlock, i);
-			}
-		}
+		forkBlock.value = this.player;
+		movement = retrieve(forkBlock);
 	}
 	else if(b.gridArr[b.findByType('center', 0)].isEmpty()){ //center empty
-		b.gridArr[b.findByType('center', 0)].value = this.player;
 		movement = b.findByType('center', 0);
+		b.gridArr[movement].value = this.player;
 	}
 	else if(this.findOpening('corner', 0) != -1){ //corner empty
-		b.gridArr[this.findOpening('corner', 0)].value = this.player;
 		movement = this.findOpening('corner', 0); 
+		b.gridArr[movement].value = this.player;
 	}
 	else { //play edge
-		b.gridArr[this.findOpening('edge', 0)].value = this.player;
 		movement = this.findOpening('edge', 0); 
+		b.gridArr[movement].value = this.player;
 	}
 
 	gLastPlayerMove = movement;
@@ -107,7 +99,14 @@ function translate(row, index){ //returns the cell number for a row location
 		i++;
 	}
 }
-	
+
+function retrieve(loc){ //determine cell number of given row
+	for(i = 0; i < 9; i++){
+		if(b.gridArr[i] == loc){
+			return i;
+		}
+	}
+}	
 
 
 
